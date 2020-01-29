@@ -1,15 +1,39 @@
 // variable for questions
 var questions = [
+    "1.Asdfjsldkjfvs;djf",
+    "2.Bdfasdfasdfsdafas",
+    "3.Cfasdfsadfasdfasd",
+    "4.Ddafasdgfgasdgasd",
+    "5.Esdfasdfasdfasdfd",
+    "6.Fasfasdfasdfasdfa"
     /*
       @TODO: write your questions here
     */
   ];
-  
+  var ans1 = ["A.123","B.234","C.345","D.456"];
+  var ans2 = ["A.abc","B.bcd","C.cde","D.def"];
+  var ans3 = ["A.123","B.234","C.345","D.456"];
+  var ans4 = ["A.abc","B.bcd","C.cde","D.def"];
+  var ans5 = ["A.123","B.234","C.345","D.456"];
+  var ans6 = ["A.abc","B.bcd","C.cde","D.def"];
+  var ansTrue = [0,1,2,3,0,1];
+  var ansarray = [ans1,ans2,ans3,ans4,ans5,ans6];
   // variables to keep track of quiz state
   var time = questions.length * 15;
   var currentQuestionIndex = 0;
+  var score = 0;
   var timerId;
-  
+  var question_w;
+  var button1;
+  var button2;
+  var button3;
+  var button4;
+  var button5;
+  var button6;
+  var popup;
+  var popup_w;
+  var nameScroe = [];
+  var i = 0;
   /**
    * Variables to reference DOM elements
    * 
@@ -33,12 +57,13 @@ var questions = [
   var choicesEl = document.getElementById("choices");
   var submitBtn = document.getElementById("submit");
   var startBtn = document.getElementById("start");
+  var endScreen = document.getElementById("end-screen");
+  var finalScore = document.getElementById("final-score");
   
   /*
     @TODO: write the rest of your variables here
   */
-  
-  
+
   /**
    * Function to start the quiz
    * 
@@ -49,7 +74,8 @@ var questions = [
    *  - [x] Get the next question
    */
   function startQuiz() {
-  
+  console.log("quiz start!!")
+  console.log("currentQuestionIndex: "+currentQuestionIndex)
     // hide start screen
     var startScreenEl = document.getElementById("start-screen");
     startScreenEl.setAttribute("class", "hide");
@@ -61,7 +87,7 @@ var questions = [
     timerId = setInterval(clockTick, 1000);
   
     // show starting time
-    timerEl.textContent = time;
+    // timerEl.textContent = time;
   
     // call the function that gets the next question 
     getQuestion();
@@ -81,11 +107,34 @@ var questions = [
    * @see https://www.w3schools.com/js/js_htmldom_methods.asp
    */
   function getQuestion() {
-  
+  console.log("question generation");
     /*
       @TODO: write your function code here
     */
-  
+    // create question and buttons
+    question_w = document.createElement("h2");
+    button1 = document.createElement("button");
+    button2 = document.createElement("button");
+    button3 = document.createElement("button");
+    button4 = document.createElement("button");
+    question_w.textContent = questions[currentQuestionIndex];
+    // set namme of choices to each button
+    button1.textContent = ansarray[currentQuestionIndex][0];
+    button2.textContent = ansarray[currentQuestionIndex][1];
+    button3.textContent = ansarray[currentQuestionIndex][2];
+    button4.textContent = ansarray[currentQuestionIndex][3];
+    // set data-index to each button
+    question_w.setAttribute("style","text-align:center")
+    button1.setAttribute("data-index", 0 );
+    button2.setAttribute("data-index", 1 );
+    button3.setAttribute("data-index", 2 );
+    button4.setAttribute("data-index", 3 );
+    // append question and button to html
+    questionsEl.prepend(question_w);
+    choicesEl.appendChild(button1);
+    choicesEl.appendChild(button2);
+    choicesEl.appendChild(button3);
+    choicesEl.appendChild(button4);
   }
   
   
@@ -104,21 +153,62 @@ var questions = [
    * @see https://www.w3schools.com/jsref/met_element_setattribute.asp
    * @see https://www.w3schools.com/jsref/met_element_removeattribute.asp
    */
-  function questionClick() {
-  
+  function checkAns() {
     /*
       @TODO: write the rest of your function code here
     */
+    console.log("user click choice button");
+    // choicesEl.addEventListener("click",function(event){
+      event.preventDefault();
+      var selected = event.target;
+      var index = selected.getAttribute("data-index");
+      console.log("if true");
+      if (index == ansTrue[currentQuestionIndex]) {
+        popup = document.createElement("hr");
+        popup_w = document.createElement("h4");
+        popup_w.textContent = "You are correct!";
+        console.log("1")
+        popup_w.setAttribute("style","color: blue")
+        choicesEl.appendChild(popup);
+        choicesEl.appendChild(popup_w);
+        score = score + 1;
+      }
+      else{
+        popup = document.createElement("hr")
+        popup_w = document.createElement("h4")
+        popup_w.textContent = "You are WRONG!"
+        popup_w.setAttribute("style","color: red")
+        choicesEl.appendChild(popup);
+        choicesEl.appendChild(popup_w);
+      } 
+    // let correct/ wrong message disappear in certain amount of time!
+    var timeleft = 3;
+        var timerInterval = setInterval(function() {
+            timeleft--;
+
+            if(timeleft === 0) {
+                choicesEl.removeChild(popup);
+                popup_w.textContent = "";
+                clearInterval(timerInterval);
+            }
+        }, 300);
   
     // check if we've run out of questions
-    if (currentQuestionIndex === questions.length) {
-      quizEnd();
-    } else {
-      getQuestion();
-    }
+    if (currentQuestionIndex === questions.length-1) {
+        quizEnd();
+      } else {
+        // add currentQustionIndex by 1, change to next question if is not the end of question list
+        currentQuestionIndex = currentQuestionIndex + 1;
+        //remove current question and choice buttons
+        questionsEl.removeChild(question_w);
+        choicesEl.removeChild(button1);
+        choicesEl.removeChild(button2);
+        choicesEl.removeChild(button3);
+        choicesEl.removeChild(button4);
+        getQuestion();
+      }
   
   }
-  
   
   /**
    * Function to end the quiz
@@ -136,11 +226,15 @@ var questions = [
    * @see https://www.w3schools.com/jsref/met_element_removeattribute.asp
    */
   function quizEnd() {
-  
     /*
       @TODO: write your function code here
     */
-    
+    clearInterval(timerId);
+    finalScore.textContent= score;
+    questionsEl.setAttribute("class", "hide");
+    choicesEl.setAttribute("class","hide");
+    endScreen.removeAttribute("class");
+    endScreen.setAttribute("style","text-align:center")
   }
   
   
@@ -153,16 +247,15 @@ var questions = [
    *  - [x] End the quiz if the user runs out of time
    */
   function clockTick() {
-  
     /*
       @TODO: write the rest of your function code here
     */
-    
-    // end the quiz if the user runs out of time
-    if (time <= 0) {
-      quizEnd();
-    }
-  
+        time--;
+        timerEl.textContent = time;
+        // end the quiz if the user runs out of time
+        if (time <= 0) {
+          quizEnd();
+        }
   }
   
   
@@ -178,16 +271,34 @@ var questions = [
    * @see https://www.w3schools.com/jsref/prop_win_localstorage.asp
    * @see https://www.w3schools.com/howto/howto_js_redirect_webpage.asp
    */
+  console.log("before save: "+nameScroe);
   function saveHighscore() {
-  
+    var name = document.getElementById("user-name").value;
+    nameScroe.push(name);
+    nameScroe.push(score);
+    
+    if(typeof(Storage) !== "undefined") {
+      if (localStorage.clickcount) {
+        localStorage.clickcount = Number(localStorage.clickcount)+1;
+      } 
+      else {
+        localStorage.clickcount = 1;
+      }
+    }
+    i = localStorage.clickcount;
+    localStorage.setItem("player"+i, JSON.stringify(nameScroe));
+
+    location.replace("highscores.html");
     /*
       @TODO: write your function code here
     */
-  
+    
   }
-  
+  console.log("after save: "+nameScroe);
   // user clicks button to submit initials
   submitBtn.onclick = saveHighscore;
   
   // user clicks button to start quiz
   startBtn.onclick = startQuiz;
+  choicesEl.onclick = checkAns;
+  submitBtn.onclick = saveHighscore;

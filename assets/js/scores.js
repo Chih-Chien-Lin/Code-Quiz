@@ -16,7 +16,9 @@ function printHighscores() {
     /*
       @TODO: write your function code here
     */
-    
+   var name = JSON.parse(localStorage.getItem("history"));
+   console.log(name);
+
   }
   
   
