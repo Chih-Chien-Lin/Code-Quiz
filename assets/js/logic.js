@@ -30,7 +30,7 @@ var button3;
 var button4;
 var button5;
 var button6;
-var popup;
+var popup_h;
 var popup_w;
 var playerScore = [];
 var playerName = [];
@@ -60,6 +60,7 @@ var submitBtn = document.getElementById("submit");
 var startBtn = document.getElementById("start");
 var endScreen = document.getElementById("end-screen");
 var finalScore = document.getElementById("final-score");
+var popup = document.getElementById("popup-Message");
 
 /*
   @TODO: write the rest of your variables here
@@ -162,21 +163,21 @@ function checkAns() {
     var selected = event.target;
     var index = selected.getAttribute("data-index");
     if (index == ansTrue[currentQuestionIndex]) {
-      popup = document.createElement("hr");
+      popup_h = document.createElement("hr");
       popup_w = document.createElement("h4");
       popup_w.textContent = "You are correct!";
       popup_w.setAttribute("style","color: blue")
-      choicesEl.appendChild(popup);
-      choicesEl.appendChild(popup_w);
+      popup.appendChild(popup_h);
+      popup.appendChild(popup_w);
       score = score + 1;
     }
     else{
-      popup = document.createElement("hr")
+      popup_h = document.createElement("hr")
       popup_w = document.createElement("h4")
       popup_w.textContent = "You are WRONG!"
       popup_w.setAttribute("style","color: red")
-      choicesEl.appendChild(popup);
-      choicesEl.appendChild(popup_w);
+      popup.appendChild(popup_h);
+      popup.appendChild(popup_w);
     } 
   // let correct/ wrong message disappear in certain amount of time!
   var timeleft = 3;
@@ -184,7 +185,7 @@ function checkAns() {
           timeleft--;
 
           if(timeleft === 0) {
-              choicesEl.removeChild(popup);
+              popup.removeChild(popup_h);
               popup_w.textContent = "";
               clearInterval(timerInterval);
           }
@@ -289,17 +290,7 @@ function saveHighscore() {
   localStorage.setItem("Name",JSON.stringify(playerName));
   localStorage.setItem("Score",JSON.stringify(playerScore));
 
-  // nameScroe.push(name);
-  // nameScroe.push(score);
-  // storageInfo = JSON.parse(localStorage.getItem("nameScroe"))
-  //  console.log(nameScroe);
-  // if (storageInfo !== null){
-  //   nameScroe = storageInfo;
-  // }
-  
-  // nameScroe.push({name:name,score:score});
-  // localStorage.setItem("nameScore",JSON.stringify(nameScroe));
-  
+
 
   location.replace("highscores.html");
   
