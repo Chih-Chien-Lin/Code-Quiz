@@ -1,22 +1,22 @@
 // variable for questions
 var questions = [
-  "1.Asdfjsldkjfvs;djf",
-  "2.Bdfasdfasdfsdafas",
-  "3.Cfasdfsadfasdfasd",
-  "4.Ddafasdgfgasdgasd",
-  "5.Esdfasdfasdfasdfd",
-  "6.Fasfasdfasdfasdfa"
+  "1.Are CSS property names case-sensitive?",
+  "2.Internal CSS is declared in HTML page's section",
+  "3.Font to be used for an HTML element can be defined through property",
+  "4.To make your website mobile friendly, you can make your website",
+  "5.Which is not the fundamental programming languages of the modern web?",
+  "6.In bootstraps, how many columns do one row have?"
   /*
     @TODO: write your questions here
   */
 ];
-var ans1 = ["A.123","B.234","C.345","D.456"];
-var ans2 = ["A.abc","B.bcd","C.cde","D.def"];
-var ans3 = ["A.123","B.234","C.345","D.456"];
-var ans4 = ["A.abc","B.bcd","C.cde","D.def"];
-var ans5 = ["A.123","B.234","C.345","D.456"];
-var ans6 = ["A.abc","B.bcd","C.cde","D.def"];
-var ansTrue = [0,1,2,3,0,1];
+var ans1 = ["A.Yes","B.No","C.Depends","D.I dont know"];
+var ans2 = ["A.<!DOCTYPE>","B.<html>","C.<body>","D.<p>"];
+var ans3 = ["A.Font","B.Font-name","C.Font-src","D.Font-family"];
+var ans4 = ["A.Fast Loading","B.Light","C.Responsive","D.Reactive"];
+var ans5 = ["A.Python","B.CSS","C.JavaScript","D.HTML"];
+var ans6 = ["A.3","B.6","C.12","D.24"];
+var ansTrue = [1,1,3,2,0,2];
 var ansarray = [ans1,ans2,ans3,ans4,ans5,ans6];
 // variables to keep track of quiz state
 var time = questions.length * 15;
@@ -189,7 +189,7 @@ function checkAns() {
               popup_w.textContent = "";
               clearInterval(timerInterval);
           }
-      }, 150);
+      }, 200);
 
   // check if we've run out of questions
   if (currentQuestionIndex === questions.length-1) {
